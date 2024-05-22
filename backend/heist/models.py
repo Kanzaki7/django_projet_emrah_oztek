@@ -23,12 +23,10 @@ class Equipe(models.Model):
     maxMaitre = models.IntegerField(default=0, validators=[MaxValueValidator(1), MinValueValidator(0)])
     maxTechnicien = models.IntegerField(default=0, validators=[MaxValueValidator(3), MinValueValidator(0)])
     maxHomme = models.IntegerField(default=0, validators=[MaxValueValidator(4), MinValueValidator(0)])
+    imageEquipe = models.ImageField(upload_to="images/")
     pays = models.ForeignKey(Pays, on_delete=models.SET_NULL, null=True)
     continent = models.ForeignKey(Continent, on_delete=models.SET_NULL, null=True)
     
-class EquipeImage(models.Model):
-    imageEquipe = models.ImageField(upload_to="images/")
-    equipe = models.ForeignKey(Equipe, on_delete=models.CASCADE, null=True)
     
 class Role(models.Model):
     nomRole = models.CharField(default="", max_length=50)
@@ -49,10 +47,8 @@ class Braqueur(models.Model):
     intelligence = models.IntegerField(default=0, validators=[MaxValueValidator(99), MinValueValidator(0)])
     intimidation = models.IntegerField(default=0, validators=[MaxValueValidator(99), MinValueValidator(0)])
     hacking = models.IntegerField(default=0, validators=[MaxValueValidator(99), MinValueValidator(0)])
+    imageBraqueur = models.ImageField(upload_to="images/")
     pays = models.ForeignKey(Pays, on_delete=models.SET_NULL, null=True)
     equipe = models.ForeignKey(Equipe, on_delete=models.SET_NULL, null=True)
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     
-class BraqueurImage(models.Model):
-    imageBraqueur = models.ImageField(upload_to="images/")
-    braqueur = models.ForeignKey(Braqueur, on_delete=models.CASCADE, null=True)

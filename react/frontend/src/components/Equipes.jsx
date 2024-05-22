@@ -3,12 +3,13 @@ import '../App.css'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Mynavbar from "./Navbar";
 
 
 export default function Equipes() { 
 
     const [dataEquipes, setdataEquipes] = useState([])
-    const [dataEquipesImages, setdataEquipesImages] = useState([])
 
   
     
@@ -17,29 +18,48 @@ export default function Equipes() {
       .then(res => setdataEquipes(res.data.data.equipes))
       .catch(error => console.log(error))
     }, [])
-    useEffect(()=>{
-      axios.get('http://127.0.0.1:8000/api/equipes')
-      .then(res => setdataEquipesImages(res.data.data.equipesImages))
-      .catch(error => console.log(error))
-    }, [])
+
+    const destroy = async (id) => {
+      await axios.delete('http://127.0.0.1:8000/api/equipe/delete/'+id)
+      setdataEquipes(dataEquipes.filter(item => item.id !== id))
+    }
 
 
 
   return(
-    <div>
-        <section>
+    <div className="braqueurs">
+    <Mynavbar />
+        <section className="braqueursSection">
+          <Link to={"/create-equipe/"}>
+              <Button variant="warning">
+                  Créer équipe
+              </Button>
+          </Link>
             <h1>Equipes :</h1>
-            {dataEquipes ? dataEquipes.map((equipe)=>(
-                <div key={equipe.id}>
-                    <Link to={"/equipes/"+equipe.id}>
-                        <h3>{equipe.nomEquipe}</h3>
-                    </Link>
-                    {dataEquipesImages ? dataEquipesImages.map((equipeImage)=>(
-                        equipeImage.equipe === equipe.id &&
-                        <img key={equipeImage.id} src={`http://127.0.0.1:8000${equipeImage.imageEquipe}`} alt="" />
-                    )) : ""}
-                </div>
-            )) : ""}
+            <div className="braqueursMap">
+              {dataEquipes ? dataEquipes.map((equipe)=>(
+                  <div key={equipe.id} className="cardEquipe">
+                      <Link to={"/equipes/"+equipe.id}>
+                          <h3 className="name">{equipe.nomEquipe}</h3>
+                      </Link>
+                      <img src={`http://127.0.0.1:8000${equipe.imageEquipe}`} alt="" width={370} height={400}/>
+                      <div className="btns-Card">
+                        <div>
+                          <Link to={"/update-equipe/"+equipe.id}>
+                            <Button variant="success">
+                                Editer
+                            </Button>
+                          </Link>
+                          </div>
+                          <div>
+                            <Button variant="danger" onClick={() => destroy(equipe.id)}>
+                              Supprimer
+                            </Button>
+                        </div>
+                    </div>
+                  </div>
+              )) : ""}
+            </div>
         </section>
     </div>
   )

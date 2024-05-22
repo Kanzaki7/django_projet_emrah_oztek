@@ -8,17 +8,14 @@ import Braqueur from './components/Braqueur.jsx'
 import Braqueurs from './components/Braqueurs.jsx'
 import CreateEquipe from './components/CreateEquipe.jsx'
 import CreateBraqueur from './components/CreateBraqueur.jsx'
+import UpdateEquipe from './components/UpdateEquipe.jsx'
+import UpdateBraqueur from './components/UpdateBraqueur.jsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
 
 
 
 const routeur = createBrowserRouter([
-  {
-    path:"/",
-    element: <App />,
-    // errorElement: <Erreur />
-  },
   {
     path:"/",
     element: <Home />,
@@ -52,6 +49,16 @@ const routeur = createBrowserRouter([
   {
     path:"/create-braqueur",
     element: <CreateBraqueur />,
+    // errorElement: <Erreur />
+  },
+  {
+    path:"/update-equipe/:id",
+    element: <UpdateEquipe />,
+    // errorElement: <Erreur />
+  },
+  {
+    path:"/update-braqueur/:id",
+    element: <UpdateBraqueur />,
     // errorElement: <Erreur />
   },
 ])
